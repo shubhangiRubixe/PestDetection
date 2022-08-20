@@ -1,8 +1,14 @@
-
 from flask import Flask, render_template, request
 import os
 from testcv2 import get_op
 import cv2
+from flask_cors import CORS, cross_origin
+
+
+
+os.putenv('LANG', 'en_US.UTF-8')
+os.putenv('LC_ALL', 'en_US.UTF-8')
+
 
 
 UPLOAD_FOLDER = './static'
@@ -11,6 +17,7 @@ for f in os.listdir(UPLOAD_FOLDER):
     os.remove(os.path.join(UPLOAD_FOLDER, f))
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -52,5 +59,7 @@ def get_output():
 
 
 if __name__ =='__main__':
-    app.run(host='127.0.0.1', port=5000)
+    app.run(debug=True)
+    
+
     
