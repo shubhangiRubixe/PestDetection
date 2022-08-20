@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>feastwell</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <br><br>
+	{% if prediction %}
+          <img src="{{img_path}}" height="400px" width="400px">
+	  <h2> Food items detected </h2>
+	  {% for i in prediction.keys() %}
+	     <li> <b>{{i.capitalize()}}</b></li>
+	     &emsp;&nbsp;Quantity: {{prediction[i][0]}}, Total volume: {{prediction[i][-2]}} ml, Total Weight: {{prediction[i][-1]}} gm
+	         <br>
+	         <br>
+          {% endfor %}
+	{% endif %}
+</div>
+
+</body>
+</html>

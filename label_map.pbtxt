@@ -1,0 +1,11 @@
+item {
+  id: 1
+  name: 'Asiatic rice borer'
+}
+
+item {
+  id: 2
+  name: 'Paddy stem maggot'
+}
+
+

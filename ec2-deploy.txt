@@ -1,0 +1,89 @@
+- edit files within ubuntu terminal
+An. 1. To view a file in a specific path: "$ sudo vi /etc/nginx/nginx.conf"
+    1. "$ vim requirements.txt"
+    2. press i for (insert)editing
+    3. press "Esc" then :wr to save changes
+    4. press "Esc" then :!q to go out of editing file
+
+- to overcome "ModuleNotFoundError: No module named 'tensorflow'"
+An. pip install tensorflow==1.2.0 --ignore-installed
+
+- to overcome tensorflow 'killed' and OSError:
+An.  increase space
+  1. "sudo pip3 install -U pip"
+  2. "sudo pip3 install grpcio==1.36.1"
+  3. "sudo pip3 install tensorflow --no-cache-dir"
+  also try with just "pip install tensorflow"
+  
+
+- to switch as root user:
+An.  "$ sudo su root"
+
+- to overcome "ImportError: libGL.so.1: cannot open shared object file: No such 
+  file or directory" fo cv2:
+An. If using "amazone linux", then use "yum" instead "apt-get"
+     1. switch into root user, then "sudo yum update && yum install -y opencv-python"
+     2. switch back from root user, then "pip install opencv-python"
+    if using ubuntu ami
+     1. "sudo apt-get update"
+     2. "sudo apt-get install ffmpeg libsm6 libxext6  -y"
+
+- if "python app.py" throw "permission deneid"
+An. Use "sudo python3 app.py"
+
+LINUX command
+- to remove a folder: "$ rm -r -v Example"
+
+UBUNTU ec2 terminal commands
+- to activate env: "$ source venv/bin/activate"
+- to get list of screens: "$ screen -ls"
+- create new screen: "$ screen -S file"
+- reattach terminal into sepecific screen: "$ screen -r 7849{screen number}" ref:https://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/
+- detach screen: "$ screen -d 1643"
+- to kill screen: "$ screen -X -S [session # you want to kill] quit"
+- check nginx status: "$ service nginx status"
+- stop nginx: "$ service nginx stop"
+- stop already running port: "$ sudo fuser -k 8000/tcp", 8000-port number
+
+
+
+local host server IP: http://127.0.0.1:5000/
+
+not worked http://ec2-44-202-116-85.compute-1.amazonaws.com/
+
+UNSING NGINX in feastwell aws acct
+worked http://44.202.116.85/feastwell, 
+worked http://ec2-44-202-116-85.compute-1.amazonaws.com/
+issue: 502 bad gateway (nginx)
+
+without using NGINX on personal acct
+working: http://ec2-54-152-46-10.compute-1.amazonaws.com:8080/feastwell
+working: http://54.152.46.10:8080/feastwell/submit
+
+
+Deployment issue
+when tried with and without nginx same type of issue occured
+- with nginx: "502 Bad-gateaway"
+- without nginx: "This site can’t be reachedec2-3-82-117-72.compute-1.amazonaws.com refused to connect".
+tried:
+- check server logs: server logs generation on AWS CLI is inactive and on putty "fatal error"(inactive) at the moment of this error
+- tensorflow log: "10% memory exceeds". This issue gone after increasing instance size (c3.large to c5.2xlarge).
+- check nginx error.log: "faild when connecting to upstream"
+- run local system for a long duration as in aws to check whether getting this issue; Woks fine (put it on run morethan 2 hours)
+
+Wanna to check:
+- logs during ml model running (local host); let try to check on localsystem
+   2022-07-20 15:46:51.095741: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'cudart64_110.dll'; dlerror: cudart64_110.dll not found
+   2022-07-20 15:46:51.137471: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+   2022-07-20 15:48:54.004020: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'nvcuda.dll'; dlerror: nvcuda.dll not found
+   2022-07-20 15:48:54.056029: W tensorflow/stream_executor/cuda/cuda_driver.cc:269] failed call to cuInit: UNKNOWN ERROR (303)
+   2022-07-20 15:48:54.469942: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:169] retrieving CUDA diagnostic information for host: DESKTOP-I21QMCV
+   2022-07-20 15:48:54.470303: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:176] hostname: DESKTOP-I21QMCV
+  findings:
+    In ec2, upto 4th lines of logs are same. At 5th line in ec2 log have 'INFO:"kernel driver does not appeared to be running on this host(ip-ipaddress-ec2.internal)"'
+    
+
+- check there any troubleshoot methods in aws docs.
+- run server after increasing EBS storage morethan 30gb 
+- tried to use AWS Deep Learning AMIs or use GPU instance.
+- try to use with production wsgi server
