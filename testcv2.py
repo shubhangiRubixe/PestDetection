@@ -17,10 +17,12 @@ def get_op():
     # PROVIDE PATH TO IMAGE DIRECTORY
     cwd=pathlib.Path(__file__).parent.resolve()
     # IMAGE_PATHS = r'C:\Users\Datamites\Downloads\tfod-v2-maskrcnn-deploy\tfod-v2-maskrcnn-deploy\static\test.jpg'
-    IMAGE_PATHS = os.path.join(cwd,'static\test.jpg')
+    IMAGE_PATHS = os.path.join(cwd,'static\\test.jpg')
+    
     # PROVIDE PATH TO MODEL DIRECTORY
     # PATH_TO_MODEL_DIR = r'C:\Users\Datamites\Downloads\tfod-v2-maskrcnn-deploy\tfod-v2-maskrcnn-deploy'
     PATH_TO_MODEL_DIR = cwd
+    
     # PROVIDE PATH TO LABEL MAP
     # PATH_TO_LABELS = r'C:\Users\Datamites\Downloads\tfod-v2-maskrcnn-deploy\tfod-v2-maskrcnn-deploy\label_map.pbtxt'
     PATH_TO_LABELS = os.path.join(cwd,'label_map.pbtxt')
@@ -32,6 +34,7 @@ def get_op():
     import time
     from object_detection.utils import label_map_util
     from object_detection.utils import visualization_utils as viz_utils
+    
     # PATH_TO_SAVED_MODEL = PATH_TO_MODEL_DIR + "/saved_model"
     PATH_TO_SAVED_MODEL = os.path.join(PATH_TO_MODEL_DIR, "saved_model")
     print('Loading model...', end='')
@@ -121,3 +124,4 @@ def get_op():
 
 if __name__== '__main__':
     get_op()
+
